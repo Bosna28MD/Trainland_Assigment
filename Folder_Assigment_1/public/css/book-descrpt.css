@@ -1,0 +1,58 @@
+.div_img_price{
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+
+
+.img_book_descp, .name_price_descpt{
+    width: 50%;
+}
+
+.img_book_descp{
+    text-align: center;
+}
+
+.img_cover_descript{
+    width: 500px;
+    height: 500px;
+    margin: 10px 0;
+    border-radius: 20px;
+    box-shadow: 5px 10px #ddd;
+}
+
+.component_book_div{
+    margin: 10px 0;
+}
+
+.key_description_book{
+    font-size: 23px;
+    font-weight: bold;
+}
+
+
+
+.form_addtoCart button{
+    border-radius:10px;
+    padding: 5px;
+    background-color: red;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.img_cart_btn_add{
+    width: 20px;
+}
+
+.btn_text_add_to_cart{
+    font-size: 20px;
+}
+
+.result_descript_book_cl{
+    color: rgb(96, 96, 223);
+    font-family: Tahoma, sans-serif;
+}
+
+.description_book_text{
+    color: black;
+}

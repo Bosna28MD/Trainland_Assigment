@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/css/main.css">
+    <style>
+        .content_qty{
+            border: 1px solid black;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cont_title_qty{
+            font-size: 20px;
+            color: black;
+        }
+
+        .btn_remove_prod{
+            border-radius: 10px;
+            padding: 3px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .line_payment{
+            border: 1px solid black;
+            width: 96%;
+            margin: auto;
+        }
+
+        .payment_result_div{
+            width: 90%;
+            margin: auto;
+            text-align: right;
+        }
+
+        .result_text_payment{
+            font-size: 21px;
+        }
+
+        .btn_submit_payment button{
+            font-size: 20px;
+            padding: 3px 7px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <header >
+        <nav class="men_nav">
+                <div class="comp_men_nav">
+                    <div class="comp_nav"><a class="men_btn" href="./index.html">Store</a></div>
+                    <div class="comp_nav"><a class="men_btn" href="./mylibrary.html">My Library</a></div>
+                </div>
+
+                <a href="" class="logo_link">
+                    <div class="comp_men_nav logo_men">
+                        <img class="img_logo" src="../public/img/book_img_logo1.jpg" alt="Img_Not_Found">
+                        <div class="logo_text">BookStore</div>
+                    </div>
+                </a>
+                
+                <!-- <div class="comp_men_nav">
+                    <div class="comp_nav"><a href="#">LogIn</a></div>
+                    <div class="comp_nav"><a href="#">SignUp</a></div>
+                </div>   -->
+                
+                 <div class="comp_men_nav">
+                    <div class="comp_nav">
+                        <a href="./user-info.html" class="user-info" onmouseover="MouseOver()"  > 
+                            UserInfo 
+                        </a>
+                        
+                        <ul class="men_user" id="men_user_dropdown" onmouseover="MouseOver()" onmouseout="MouseOut()">
+                            <li>UserName: Bosna </li>
+                            <li class="cart_li"> <div>Money:$500</div> <a href="#"><img class="img_cart" src="../public/img/cart_img.jpg" alt="Img Cart"></a></li>
+                        </ul>
+
+                    </div>
+                    <div class="comp_nav">
+                        <a href="">LogOut</a>
+                    </div>
+                </div>  
+        </nav>
+    </header>
+
+
+
+    <main>
+        <!-- <h2>Nothing was added to Cart</h2> -->
+        <div class="content_prod">
+            <div class="img_book">
+                <img class="image_book_cover" src="../public/img/Image_Cover_1.jpeg" alt="">
+            </div>
+
+            <div class="section_title">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, nulla!
+            </div>
+
+            <div class="section_author">
+                Lorem ipsum dolor sit amet.
+            </div>
+
+            <!-- <div class="content_qty">
+                <span class="cont_title_qty">Quantity:3</span>
+                <form action="" >
+                    <button type="submit" class="btn_remove_prod">Remove one</button>
+                </form>
+                
+            </div> -->
+
+        </div>
+
+    </main>
+
+
+    <div class="line_payment"></div>
+
+    <div class="payment_result_div">
+        <span class="result_text_payment">Result: $0</span>
+        <form action="" class="btn_submit_payment">
+            <button type="submit">Buy It</button>
+        </form>
+    </div>
+
+
+
+    <footer class="footer">
+        <div class="col-1">
+            <h3>USEFULL LINKS</h3>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            
+        </div>
+        
+        
+        <div class="col-2">
+            <h3>NewsLetter</h3>
+            <form action="">
+                <input type="email" placeholder="Your Email Adress" required>
+                <br>
+                <button type="submit">SUBSCRIBE NOW</button>
+            </form>
+        </div>
+
+
+        <div class="col-3">
+            <h3>CONTACT</h3>
+            <p>123,XYZ Road, BSK 3 <br> Bangalore,Karnataka, IN</p>
+        </div>
+
+    </footer>
+
+    <script>
+        //const men_User=document.getElementById("men_user_dropdown");
+
+
+        function MouseOver(){
+            document.getElementById("men_user_dropdown").style.display = "block";
+        }
+
+        function MouseOut(){
+            document.getElementById("men_user_dropdown").style.display="none";
+        }
+
+    </script>
+    
+</body>
+</html>

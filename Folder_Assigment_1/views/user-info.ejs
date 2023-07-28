@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/main.css">
+
+    <style>
+        
+        .user_info_main{
+            justify-content: center;
+        }
+
+        .user-info_div{
+            border: 1px solid black;
+            width: 70%;
+            height: 100%;
+            margin: 20px 0;
+            height: 50vh;
+        }
+
+        .user-info_div form{
+
+            width: 80%;
+            margin: auto;
+        }
+
+        .info_user_line{
+            display: flex;
+            justify-content: space-around;
+            margin: 40px;
+        }
+
+        .info_user_line label{
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .info_user_line input{
+            text-align: center;
+        }
+
+        .btns_edit_user_div{
+            
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .btns_edit_user_div button{
+            font-size: 21px;
+            border-radius: 10px;
+            padding: 5px;
+            color: black;
+            background-color: #efefef;
+        }
+
+        .btns_edit_user_div button a{
+            text-decoration: none;
+        }
+
+        .img_cart_user-info{
+            width: 30px;
+        }
+
+
+
+    </style>
+
+</head>
+<body >
+    
+    <%- include('includes/header.ejs') %>
+    
+
+
+    
+    <main class="user_info_main">
+        
+        <div class="user-info_div">
+            <form>
+                <div class="userName_div info_user_line">
+                    <label for="">NameUser:</label>
+                    <div>NameUser...</div>
+                </div>
+
+                <div class="userEmail_div info_user_line">
+                    <label for="">Email:</label>
+                    <div>Email...</div>
+                </div>
+
+                <div class="userAge_div info_user_line">
+                    <label for="">Age:</label>
+                    <div>Age...</div>
+                </div>
+
+                <div class="userMoney_div info_user_line">
+                    <label for="">Money:</label>
+                    <div>$50.00</div>
+                </div>
+
+                <div class="userNrBooks_div info_user_line">
+                    <label for="">Nr. Books: </label>
+                    <div>0</div>
+                </div>
+
+                
+                <div class="btns_edit_user_div">
+                    <button><a href="">Edit Data User</a></button>
+                    <button>
+                        <a href="">
+                            <span>View Cart</span>
+                            <img class="img_cart_user-info" src="../public/img/cart_img.jpg" alt="">
+                        </a>
+                    </button>
+                    <button><a href="">Change Password</a></button>
+                </div>
+            </form>
+            
+        </div>
+
+    </main>
+
+
+
+
+    <%- include('./includes/footer.ejs') %>
+
+    <script src="/javascript/script.js"></script>
+</body>
+</html>

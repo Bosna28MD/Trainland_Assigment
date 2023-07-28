@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/css/main.css">
+    <link rel="stylesheet" href="../public/css/book-descrpt.css">
+
+</head>
+<body>
+
+    <header >
+        <nav class="men_nav">
+                <div class="comp_men_nav">
+                    <div class="comp_nav"><a class="men_btn" href="./index.html">Store</a></div>
+                    <div class="comp_nav"><a class="men_btn" href="./mylibrary.html">My Library</a></div>
+                    
+                </div>
+
+                <a href="" class="logo_link">
+                    <div class="comp_men_nav logo_men">
+                        <img class="img_logo" src="../public/img/book_img_logo1.jpg" alt="Img_Not_Found">
+                        <div class="logo_text">BookStore</div>
+                    </div>
+                </a>
+                
+                 <!-- <div class="comp_men_nav">
+                    <div class="comp_nav"><a href="">LogIn</a></div>
+                    <div class="comp_nav"><a href="">SignUp</a></div>
+                </div>  -->
+                
+                <div class="comp_men_nav">
+                    <div class="comp_nav">
+                        <a href="./user-info.html" class="user-info" onmouseover="MouseOver()"  > 
+                            UserInfo 
+                        </a>
+                        
+                        <ul class="men_user" id="men_user_dropdown" onmouseover="MouseOver()" onmouseout="MouseOut()">
+                            <li>UserName: Bosna </li>
+                            <li class="cart_li"> <div>Money:$500</div> <a href="#"><img class="img_cart" src="../public/img/cart_img.jpg" alt="Img Cart"></a></li>
+                        </ul>
+
+                    </div>
+                    <div class="comp_nav">
+                        <a href="">LogOut</a>
+                    </div>
+                </div> 
+        </nav>
+    </header>
+
+
+
+
+
+    <main class="main_book_descpt">
+        <div class="div_img_price">
+            
+            <div class="img_book_descp">
+                <img class="img_cover_descript" src="../public/img/Image_Cover_1.jpeg" alt="">
+            </div>
+
+            <div class="name_price_descpt">
+                <div class="name_book_desc component_book_div">
+                    <span class="key_description_book" >Name:</span> 
+                    <span class="result_descript_book_cl">Lunar Storm</span>
+                </div>
+
+                <div class="author_book_desc component_book_div">
+                    <span class="key_description_book">Author:</span> 
+                    <span class="result_descript_book_cl">Terry Crosbby</span>
+                </div>
+
+                <div class="price_book_desc component_book_div">
+                    <span class="key_description_book">Price:</span> 
+                    <span class="result_descript_book_cl">$5.00</span>
+                    <form action="" class="form_addtoCart">
+                        <button type="submit">
+                            <span class="btn_text_add_to_cart">Add to Cart</span>
+                            <img class="img_cart_btn_add" src="../public/img/cart_img.jpg" alt="">
+                        </button>
+                    </form>
+                </div>
+
+                <div class="sec_book_descript component_book_div">
+                    <div class="key_description_book">Description:</div>
+                    <div class="result_descript_book_cl description_book_text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, exercitationem!
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+
+
+
+
+
+    <footer class="footer">
+        <div class="col-1">
+            <h3>USEFULL LINKS</h3>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+        </div>
+        
+        
+        <div class="col-2">
+            <h3>NewsLetter</h3>
+            <form action="">
+                <input type="email" placeholder="Your Email Adress" required>
+                <br>
+                <button type="submit">SUBSCRIBE NOW</button>
+            </form>
+        </div>
+
+
+        <div class="col-3">
+            <h3>CONTACT</h3>
+            <p>123,XYZ Road, BSK 3 <br> Bangalore,Karnataka, IN</p>
+        </div>
+
+    </footer>
+
+
+    <script>
+        //const men_User=document.getElementById("men_user_dropdown");
+
+
+        function MouseOver(){
+            document.getElementById("men_user_dropdown").style.display = "block";
+        }
+
+        function MouseOut(){
+            document.getElementById("men_user_dropdown").style.display="none";
+        }
+
+    </script>
+
+    
+</body>
+</html>

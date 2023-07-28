@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/book-descrpt.css">
+</head>
+<body >
+    
+    <%- include('includes/header.ejs') %>
+    
+
+
+    <main class="main_book_descpt">
+        <div class="div_img_price">
+            
+            <div class="img_book_descp">
+                <img class="img_cover_descript" src="/img/Image_Cover_1.jpeg" alt="Image Not Found">
+            </div>
+
+            <div class="name_price_descpt">
+                <div class="name_book_desc component_book_div">
+                    <span class="key_description_book" >Name:</span> 
+                    <span class="result_descript_book_cl">Lunar Storm</span>
+                </div>
+
+                <div class="author_book_desc component_book_div">
+                    <span class="key_description_book">Author:</span> 
+                    <span class="result_descript_book_cl">Terry Crosbby</span>
+                </div>
+
+                <div class="price_book_desc component_book_div">
+                    <span class="key_description_book">Price:</span> 
+                    <span class="result_descript_book_cl">$5.00</span>
+                    <form action="" class="form_addtoCart">
+                        <button type="submit">
+                            <span class="btn_text_add_to_cart">Add to Cart</span>
+                            <img class="img_cart_btn_add" src="/img/cart_img.jpg" alt="Img not Found">
+                        </button>
+                    </form>
+                </div>
+
+                <div class="sec_book_descript component_book_div">
+                    <div class="key_description_book">Description:</div>
+                    <div class="result_descript_book_cl description_book_text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, exercitationem!
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    
+
+    <%- include('./includes/footer.ejs') %>
+
+    <script src="/javascript/script.js"></script>
+</body>
+</html>

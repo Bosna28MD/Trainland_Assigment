@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/main.css">
+
+    <style>
+        .register_menu{
+            display: block;
+            text-align: center;
+        }
+
+        .register_menu_h2{
+            font-weight: bold;
+            font-size: 35px;
+        }
+
+        .regist_menu_form{
+            margin: 20px auto;
+            width: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        } 
+
+        .div_form_register{
+            border: 3px solid rgb(155, 150, 150);
+            border-radius: 10px;
+            width: 60%;
+            height: 90%;
+            padding: 20px;
+        }
+
+        .register_div_inpt{
+            margin: 10px 0 ;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .register_div_inpt label{
+            font-size: 22px;
+        }
+
+        .btn_div{
+            margin: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .btn_div button{
+            font-weight: bold;
+            font-size: 20px;
+            padding: 3px;
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+<body >
+    
+    <%- include('includes/header.ejs') %>
+    
+
+    <main class="register_menu">
+        <div class="register_menu_h2">Register</div>
+        <form action="" class="regist_menu_form">
+            <div class="div_form_register">
+                <div class="username_div register_div_inpt">
+                    <label for="">UserName:</label>
+                    <input type="text">
+                </div>
+    
+                <div class="email_div register_div_inpt">
+                    <label for="">Email</label>
+                    <input type="email">
+                </div>
+    
+                <div class="age_div register_div_inpt" >
+                    <label for="">Age:</label>
+                    <input type="number">
+                </div>
+
+    
+                <div class="pwd_div register_div_inpt" >
+                    <label for="">Password</label>
+                    <input type="password">
+                </div>
+
+                <div class="btn_div register_div_inpt">
+                    <button type="submit">Register</button>
+                </div>
+
+            </div>
+            
+
+        </form>
+
+
+    </main>
+
+
+    <%- include('./includes/footer.ejs') %>
+
+    <script src="/javascript/script.js"></script>
+</body>
+</html>
