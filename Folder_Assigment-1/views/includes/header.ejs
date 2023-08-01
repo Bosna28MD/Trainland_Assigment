@@ -1,0 +1,44 @@
+<header >
+    <nav class="men_nav">
+            <div class="comp_men_nav">
+                <div class="comp_nav"><a class="men_btn" href="/">Store</a></div>
+                <div class="comp_nav"><a class="men_btn" href="/my-library">My Library</a></div>
+            </div>
+
+            <a href="/" class="logo_link">
+                <div class="comp_men_nav logo_men">
+                    <img class="img_logo" src="/img/book_img_logo1.jpg" alt="Img_Not_Found">
+                    <div class="logo_text">BookStore</div>
+                </div>
+            </a>
+            
+
+            <% if(!user){ %>
+            <div class="comp_men_nav">
+                <div class="comp_nav"><a href="/log-in">LogIn</a></div>
+                <div class="comp_nav"><a href="/register">SignUp</a></div>
+            </div> 
+            <% }else{ %>
+             <div class="comp_men_nav">
+                <div class="comp_nav">
+                    <a href="/user-info" class="user-info" onmouseover="MouseOver()"  > 
+                        UserInfo 
+                    </a>
+                    
+                    <ul class="men_user" id="men_user_dropdown" onmouseover="MouseOver()" onmouseout="MouseOut()">
+                        <li>Email: <%=user.email%> </li>
+                        <li class="cart_li"> <div>Money:<%=user.money%>$</div> <a href="/cart"><img class="img_cart" src="/img/cart_img.jpg" alt="Img Cart"></a></li>
+                    </ul>
+
+                </div>
+                <div class="comp_nav">
+                    <form action="/logout" method="post">
+                        <button class="btn_log_out" type="submit">Log Out</button>
+                    </form>
+                    
+                </div>
+            </div> 
+            <%}%>
+    </nav>
+    <!-- <div><%=title%></div> -->
+</header>
