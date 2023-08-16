@@ -159,6 +159,11 @@ def Log_IN(conn):
     root.mainloop();
 
 
+
+
+
+
+
 def User_Menu(conn):
     root=tk.Tk();
     root.title("User Menu")
@@ -168,8 +173,21 @@ def User_Menu(conn):
     root.columnconfigure(1,weight=1);
     root.columnconfigure(2,weight=1);
 
-    lbl_title=tk.Label(root,text="UserName:"+USER[1]);
-    lbl_title.grid(row=0,column=1);
+    root.rowconfigure(0,weight=1);
+    root.rowconfigure(1,weight=1);
+    root.rowconfigure(2,weight=1);
+    root.rowconfigure(3,weight=1);
+    root.rowconfigure(4,weight=1);
+
+
+
+    """ lbl_title=tk.Label(root,text="UserName: "+USER[1],font=("Arial",25));
+    lbl_title.grid(row=0,column=1,sticky=tk.N); """
+    lbl_inventory=tk.Label(root,text="Inventory Managment System",font=("Arial",23))
+    lbl_inventory.grid(row=0,column=1,sticky=tk.N);
+
+    lbl_title=tk.Label(root,text="UserName: "+USER[1],font=("Arial",21));
+    lbl_title.grid(row=1,column=1,sticky=tk.N);
 
     def func_logout():
         global USER
@@ -179,21 +197,90 @@ def User_Menu(conn):
 
 
     btn_logout=tk.Button(root,text="LogOut",command=func_logout);
-    btn_logout.grid(row=0,column=2,sticky=tk.E);
+    btn_logout.grid(row=0,column=2,sticky=tk.NE);
+
+
+
+    btn_user_view=tk.Button(root,text="User",font=("Arial",19));
+    btn_user_view.grid(row=2,column=0,sticky=tk.N);
+
+    btn_customer=tk.Button(root,text="Customers",font=("Arial",19));
+    btn_customer.grid(row=2,column=2,sticky=tk.N);
+
+    btn_products=tk.Button(root,text="Products",font=("Arial",19));
+    btn_products.grid(row=3,column=0,sticky=tk.N);
+
+    btn_orders=tk.Button(root,text="Orders",font=("Arial",19));
+    btn_orders.grid(row=3,column=2,sticky=tk.N);
+
 
 
     root.mainloop();
 
 
+def User_Table(conn):
+    root=tk.Tk();
+    root.title("User Table");
+    root.geometry("700x500");
+
+    root.columnconfigure(0,weight=1);
+    root.columnconfigure(1,weight=1);
+    root.columnconfigure(2,weight=1);
+
+    root.rowconfigure(0,weight=1);
+    root.rowconfigure(1,weight=1);
+    root.rowconfigure(2,weight=1);
+    root.rowconfigure(3,weight=1);
+    root.rowconfigure(4,weight=1);
+
+
+    lbl_title=tk.Label(root,text="User Table",font=("Arial",21));
+    lbl_title.grid(row=0,column=1);
+
+    btn_back=tk.Button(root,text="Back to Meniu");
+    btn_back.grid(row=0,column=2,sticky=tk.NE)
+
+
+    lbl_title=tk.Label(root,text="UserName: "+USER[1],font=("Arial",18));
+    lbl_title.grid(row=1,column=1,sticky=tk.N);
+
+    tree=ttk.Treeview(root,columns=('id','username','age'),show="headings");
+    tree.heading('id',text="Id");
+    tree.heading('username',text="UserName");
+    tree.heading('age',text="Age");
+
+    tree.grid(row=2,column=0,columnspan=3,sticky="nsew");
+
+
+    root.mainloop();
+
+
+def Customer_Table(conn):
+    pass
+
+
+def Products_Table(conn):
+    pass
+
+
+def Orders_Table(conn):
+    pass
+
+
+
+
+
 if __name__=="__main__":
-    USER=[];
+    USER=[0,""];
     try:
         connection=mysql.connector.connect(
         host='localhost',
         database='db_python1',
         user="root",
         password="root");
-        Log_IN(conn=connection);
+        #Log_IN(conn=connection);
+        #User_Menu(conn=connection);
+        User_Table(conn=connection);
     except Error as e:
         print("Error DataBase: ",e);    
 
