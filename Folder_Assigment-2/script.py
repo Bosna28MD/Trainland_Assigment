@@ -210,6 +210,10 @@ def User_Menu(conn):
     def btn_Products_Table():
         root.destroy();
         Products_Table(conn=conn);
+    
+    def btn_Order_Table():
+        root.destroy()
+        Orders_Table(conn=conn);
 
 
     btn_user_view=tk.Button(root,text="User-View",font=("Arial",19),command=btn_User_Table);
@@ -221,8 +225,9 @@ def User_Menu(conn):
     btn_products=tk.Button(root,text="Products",font=("Arial",19),command=btn_Products_Table);
     btn_products.grid(row=3,column=0,sticky=tk.N);
 
-    btn_orders=tk.Button(root,text="Orders",font=("Arial",19));
+    btn_orders=tk.Button(root,text="Orders",font=("Arial",19),command=btn_Order_Table);
     btn_orders.grid(row=3,column=2,sticky=tk.N);
+
 
 
     root.mainloop();
@@ -609,7 +614,7 @@ def Customer_Table(conn):
 def Products_Table(conn):
     root=tk.Tk();
     root.geometry("1200x800");
-    root.title("Customer Table");
+    root.title("Product Table");
 
     for i in range(5):
         root.columnconfigure(i,weight=1);
@@ -912,8 +917,223 @@ def Products_Table(conn):
 
 
 
+
+
+
+
+
+
+
+
 def Orders_Table(conn):
-    pass
+    root=tk.Tk();
+    root.geometry("1650x900");
+    root.title("Order Table");
+
+    for i in range(5):
+        root.columnconfigure(i,weight=1);
+        root.rowconfigure(i,weight=1)
+
+    #Title-Frame and UserName-title:
+    frame_title=tk.Frame(root);
+    frame_title.grid(row=0,column=2,sticky="nsew");
+
+    lbl_title=tk.Label(frame_title,text="Order Table",font=("Arial",21));
+    lbl_title.pack();
+
+    lbl_username=tk.Label(frame_title,text="UserName: "+USER[1],font=("Arial",17));
+    lbl_username.pack();
+
+
+    def btn_back_func():
+        root.destroy();
+        User_Menu(conn=conn);
+
+    btn_back=tk.Button(root,text="Back to Meniu",command=btn_back_func);
+    btn_back.grid(row=0,column=5,sticky=tk.NE);
+
+    frame_insert=tk.Frame(root,bg="grey");
+    frame_insert.grid(row=1,column=0,rowspan=4,columnspan=2,sticky="NSEW");
+    
+    product_var=tk.StringVar();
+    value_prod_var=tk.StringVar();
+    quantity_prod_var=tk.StringVar();
+    customer_var=tk.StringVar();
+    user_id_var=tk.StringVar();
+
+    
+    
+    def Retrieve_Products_sql():
+        cursor_db=connection.cursor();
+        cursor_db.execute(f"Select id_prod,name_product,value_product from products_table");
+        product_data=cursor_db.fetchall()
+        return product_data;
+
+
+    lbl_nameProduct=tk.Label(frame_insert,text="Select Product:");
+    lbl_nameProduct.pack(anchor="w",padx=5,pady=5);
+
+    value_prod=Retrieve_Products_sql();
+    products_mysql=[];
+    for i in value_prod:
+        var=str(i[0])+"<->"+str(i[1])
+        products_mysql.append(var)
+    #products_mysql=[];
+
+    #print(products_mysql);
+    text_productname=ttk.Combobox(frame_insert, textvariable=product_var)
+    text_productname.pack(anchor="w",padx=5,fill="x");
+    text_productname.config(values=products_mysql,state="readonly")
+    if(len(products_mysql)>0):
+        text_productname.current(0);
+
+    
+
+    tk.Label(frame_insert,bg="grey").pack(pady=2);
+
+
+    lbl_valueprod=tk.Label(frame_insert,text="Value 1-Product:");
+    lbl_valueprod.pack(anchor="w",padx=5,pady=5);
+
+    text_valueprod=tk.Entry(frame_insert,textvariable=value_prod_var);
+    if(len(products_mysql)>0):
+        text_valueprod.insert(0,value_prod[text_productname.current()][2]);
+    text_valueprod.config(state="disabled")
+    text_valueprod.pack(anchor="w",padx=5,fill="x");
+
+    def get_Value_Product(event):
+        #print(text_productname.current());
+        text_valueprod.config(state="normal");
+        text_valueprod.delete(0,tk.END)
+        text_valueprod.insert(0,value_prod[text_productname.current()][2]);
+        text_valueprod.config(state="disabled")
+
+    text_productname.bind('<<ComboboxSelected>>',get_Value_Product)
+
+
+    tk.Label(frame_insert,bg="grey").pack(pady=2);
+
+
+    lbl_quantityproduct=tk.Label(frame_insert,text="Quantity Product:");
+    lbl_quantityproduct.pack(anchor="w",padx=5,pady=5);
+
+    text_quantityproduct=tk.Entry(frame_insert,textvariable=quantity_prod_var);
+    text_quantityproduct.pack(anchor="w",padx=5,fill="x");
+
+
+    
+    tk.Label(frame_insert,bg="grey").pack(pady=2);
+
+    
+    def Retrieve_Customer_sql():
+        cursor_db=connection.cursor();
+        cursor_db.execute(f"Select id,name_customer from customers_table");
+        product_data=cursor_db.fetchall()
+        return product_data;
+
+    value_custm=Retrieve_Customer_sql();
+    customer_mysql=[];
+    for i in value_custm:
+        var=str(i[0])+"<->"+str(i[1])
+        customer_mysql.append(var)
+    #customer_mysql=[];    
+
+    lbl_nameCustomer=tk.Label(frame_insert,text="Select Customer:");
+    lbl_nameCustomer.pack(anchor="w",padx=5,pady=5);
+
+    text_customername=ttk.Combobox(frame_insert, textvariable=customer_var)
+    text_customername.pack(anchor="w",padx=5,fill="x");
+    text_customername.config(values=customer_mysql,state="readonly")
+    if(len(customer_mysql)>0):
+        text_customername.current(0);
+
+
+    tk.Label(frame_insert,bg="grey").pack(pady=2);
+
+    lbl_userinsert=tk.Label(frame_insert,text="User Insert:");
+    lbl_userinsert.pack(anchor="w",padx=5,pady=5);
+
+    text_userinsert=tk.Entry(frame_insert,textvariable=user_id_var);
+    text_userinsert.insert(0,USER[0]);
+    text_userinsert.config(state="disabled")
+    text_userinsert.pack(anchor="w",padx=5,fill="x");
+
+
+
+
+    tk.Label(frame_insert,bg="grey").pack(pady=2);
+
+
+
+
+
+    frame_btn=tk.Frame(frame_insert,bg="grey");
+    frame_btn.pack(padx=5,pady=20,fill="x");
+
+    frame_btn.columnconfigure(0,weight=1);
+    frame_btn.columnconfigure(1,weight=1);
+    frame_btn.columnconfigure(2,weight=1);
+
+
+
+    #print(product_var.get());
+    def btn_add_order():
+        print(product_var.get());
+        print(value_prod_var.get())
+        print(quantity_prod_var.get())
+        print(customer_var.get())
+        print(user_id_var.get())
+        if(len(product_var.get())==0 or len(value_prod_var.get())==0 or len(quantity_prod_var.get())==0 or len(customer_var.get())==0 or len(user_id_var.get())==0 ):
+            messagebox.showwarning("Warning", "Fill All the Fields");
+            return;
+
+    btn_add=tk.Button(frame_btn,text="Add",command=btn_add_order);
+    btn_add.grid(row=0,column=0);
+
+    btn_edit=tk.Button(frame_btn,text="Edit");
+    btn_edit.grid(row=0,column=1);
+
+
+    btn_delete=tk.Button(frame_btn,text="Delete");
+    btn_delete.grid(row=0,column=2);
+
+
+    
+
+    #Table Orders:
+    frame_table=tk.Frame(root,bg="white");
+    frame_table.grid(row=1,column=2,columnspan=4,rowspan=4,sticky=tk.NSEW);
+
+    frame_table.columnconfigure(0,weight=1);
+    frame_table.columnconfigure(1,weight=1); 
+    
+    frame_table.rowconfigure(0,weight=1);
+
+
+    table_product=ttk.Treeview(frame_table,columns=('id_order','prod_sel','value_1_prod','quantity_prod','value_total','customer_sel','user_id'),show="headings");
+    table_product.heading('id_order',text="Id:");
+    table_product.heading('prod_sel',text="Product Ordered:");
+    table_product.heading('value_1_prod',text="Value 1-Product:");
+    table_product.heading('quantity_prod',text="Quantity Order:");
+    table_product.heading('value_total',text="Value-Total Product:");
+    table_product.heading('customer_sel',text="Customer Ordered:");
+    table_product.heading('user_id',text="User-Id:");
+    table_product.grid(row=0,column=0,columnspan=2,sticky=tk.NSEW);
+
+    """ customer_data=Retrieve_mysqlProducts();
+    for i in customer_data:
+        table_product.insert(parent="",index=tk.END,values=i); """
+    
+
+
+
+    root.mainloop();    
+
+
+
+
+
+
 
 
 
@@ -927,7 +1147,8 @@ if __name__=="__main__":
         database='db_python1',
         user="root",
         password="root");
-        Log_IN(conn=connection);
+        #Log_IN(conn=connection);
+        Orders_Table(conn=connection)
         #Products_Table(conn=connection)
         #Customer_Table(conn=connection);
         #User_Menu(conn=connection);
