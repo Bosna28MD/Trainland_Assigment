@@ -958,6 +958,7 @@ def Orders_Table(conn):
     product_var=tk.StringVar();
     value_prod_var=tk.StringVar();
     quantity_prod_var=tk.StringVar();
+    quantity_prod_total_var=tk.StringVar();
     customer_var=tk.StringVar();
     user_id_var=tk.StringVar();
 
@@ -965,7 +966,7 @@ def Orders_Table(conn):
     
     def Retrieve_Products_sql():
         cursor_db=connection.cursor();
-        cursor_db.execute(f"Select id_prod,name_product,value_product from products_table");
+        cursor_db.execute(f"Select id_prod,name_product,value_product,quantity from products_table");
         product_data=cursor_db.fetchall()
         return product_data;
 
@@ -1001,15 +1002,6 @@ def Orders_Table(conn):
     text_valueprod.config(state="disabled")
     text_valueprod.pack(anchor="w",padx=5,fill="x");
 
-    def get_Value_Product(event):
-        #print(text_productname.current());
-        text_valueprod.config(state="normal");
-        text_valueprod.delete(0,tk.END)
-        text_valueprod.insert(0,value_prod[text_productname.current()][2]);
-        text_valueprod.config(state="disabled")
-
-    text_productname.bind('<<ComboboxSelected>>',get_Value_Product)
-
 
     tk.Label(frame_insert,bg="grey").pack(pady=2);
 
@@ -1019,6 +1011,37 @@ def Orders_Table(conn):
 
     text_quantityproduct=tk.Entry(frame_insert,textvariable=quantity_prod_var);
     text_quantityproduct.pack(anchor="w",padx=5,fill="x");
+
+
+    tk.Label(frame_insert,bg="grey").pack(pady=2);
+
+
+    lbl_quantityproducttot=tk.Label(frame_insert,text="Quantity Total:");
+    lbl_quantityproducttot.pack(anchor="w",padx=5,pady=5);
+
+    text_quantityproducttot=tk.Entry(frame_insert,textvariable=quantity_prod_total_var);
+    if(len(products_mysql)>0):
+        text_quantityproducttot.insert(0,value_prod[text_productname.current()][3]);
+    text_quantityproducttot.config(state="disabled")
+    text_quantityproducttot.pack(anchor="w",padx=5,fill="x");
+
+
+
+    def get_Value_Product(event):
+        #print(text_productname.current());
+        text_valueprod.config(state="normal");
+        text_quantityproducttot.config(state="normal");
+
+        text_valueprod.delete(0,tk.END)
+        text_valueprod.insert(0,value_prod[text_productname.current()][2]);
+        
+        text_quantityproducttot.delete(0,tk.END)
+        text_quantityproducttot.insert(0,value_prod[text_productname.current()][3]);
+
+        text_valueprod.config(state="disabled")
+        text_quantityproducttot.config(state="disabled")
+
+    text_productname.bind('<<ComboboxSelected>>',get_Value_Product)
 
 
     
@@ -1078,14 +1101,29 @@ def Orders_Table(conn):
 
     #print(product_var.get());
     def btn_add_order():
-        print(product_var.get());
+        """ print(product_var.get());
         print(value_prod_var.get())
         print(quantity_prod_var.get())
+        print(quantity_prod_total_var.get())
         print(customer_var.get())
-        print(user_id_var.get())
+        print(user_id_var.get()) """
         if(len(product_var.get())==0 or len(value_prod_var.get())==0 or len(quantity_prod_var.get())==0 or len(customer_var.get())==0 or len(user_id_var.get())==0 ):
             messagebox.showwarning("Warning", "Fill All the Fields");
             return;
+        if(int(quantity_prod_var.get())==0):
+            messagebox.showwarning("Warning", "Quantity have to be greater than 0");
+            return;
+        if(int(quantity_prod_total_var.get())-int(quantity_prod_var.get())<0):
+            messagebox.showwarning("Warning", "Not enough porudcts selected(quantity)");
+            return;
+        cursor_db=connection.cursor();
+        cursor_db.execute(f"INSERT into orders_table(id_prod,quantity_prod,id_customer,date_order,user_id) values('{name_product.get()}',{value_product.get()},'{quantity_product.get()}','{userinsert_txt.get()}') ");
+        connection.commit();
+        if(cursor_db.rowcount>0):
+            messagebox.showinfo("showinfo", "Product created")
+            #table_insert();
+
+
 
     btn_add=tk.Button(frame_btn,text="Add",command=btn_add_order);
     btn_add.grid(row=0,column=0);
@@ -1147,8 +1185,8 @@ if __name__=="__main__":
         database='db_python1',
         user="root",
         password="root");
-        #Log_IN(conn=connection);
-        Orders_Table(conn=connection)
+        Log_IN(conn=connection);
+        #Orders_Table(conn=connection)
         #Products_Table(conn=connection)
         #Customer_Table(conn=connection);
         #User_Menu(conn=connection);
