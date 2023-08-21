@@ -952,6 +952,12 @@ def Orders_Table(conn):
     btn_back=tk.Button(root,text="Back to Meniu",command=btn_back_func);
     btn_back.grid(row=0,column=5,sticky=tk.NE);
 
+
+
+
+
+
+
     frame_insert=tk.Frame(root,bg="grey");
     frame_insert.grid(row=1,column=0,rowspan=4,columnspan=2,sticky="NSEW");
     
@@ -998,7 +1004,7 @@ def Orders_Table(conn):
 
     text_valueprod=tk.Entry(frame_insert,textvariable=value_prod_var);
     if(len(products_mysql)>0):
-        text_valueprod.insert(0,value_prod[text_productname.current()][2]);
+        text_valueprod.insert(0,Retrieve_Products_sql()[text_productname.current()][2]);
     text_valueprod.config(state="disabled")
     text_valueprod.pack(anchor="w",padx=5,fill="x");
 
@@ -1021,7 +1027,7 @@ def Orders_Table(conn):
 
     text_quantityproducttot=tk.Entry(frame_insert,textvariable=quantity_prod_total_var);
     if(len(products_mysql)>0):
-        text_quantityproducttot.insert(0,value_prod[text_productname.current()][3]);
+        text_quantityproducttot.insert(0,Retrieve_Products_sql()[text_productname.current()][3]);
     text_quantityproducttot.config(state="disabled")
     text_quantityproducttot.pack(anchor="w",padx=5,fill="x");
 
@@ -1033,10 +1039,10 @@ def Orders_Table(conn):
         text_quantityproducttot.config(state="normal");
 
         text_valueprod.delete(0,tk.END)
-        text_valueprod.insert(0,value_prod[text_productname.current()][2]);
+        text_valueprod.insert(0,Retrieve_Products_sql()[text_productname.current()][2]);
         
         text_quantityproducttot.delete(0,tk.END)
-        text_quantityproducttot.insert(0,value_prod[text_productname.current()][3]);
+        text_quantityproducttot.insert(0,Retrieve_Products_sql()[text_productname.current()][3]);
 
         text_valueprod.config(state="disabled")
         text_quantityproducttot.config(state="disabled")
@@ -1095,11 +1101,17 @@ def Orders_Table(conn):
 
     frame_btn.columnconfigure(0,weight=1);
     frame_btn.columnconfigure(1,weight=1);
-    frame_btn.columnconfigure(2,weight=1);
 
 
 
     #print(product_var.get());
+
+    def Edit_Quantity_ProductTable(id_prod,new_quantity):
+        cursor_db=connection.cursor();
+        cursor_db.execute(f"Update products_table set quantity='{new_quantity}' where id_prod={id_prod} ");
+        connection.commit();
+
+
     def btn_add_order():
         """ print(product_var.get());
         print(value_prod_var.get())
@@ -1117,26 +1129,62 @@ def Orders_Table(conn):
             messagebox.showwarning("Warning", "Quantity have to be greater than 0");
             return;
         if(int(quantity_prod_total_var.get())-int(quantity_prod_var.get())<0):
-            messagebox.showwarning("Warning", "Not enough porudcts selected(quantity)");
+            messagebox.showwarning("Warning", "Too many proudcts selected(quantity)");
             return;
         cursor_db=connection.cursor();
         cursor_db.execute(f"INSERT into orders_table(id_prod,quantity_prod,id_customer,user_id) values('{id_product}',{quantity_prod_var.get()},'{id_customer}','{user_id_var.get()}') ");
         connection.commit();
         if(cursor_db.rowcount>0):
             messagebox.showinfo("showinfo", "Order created")
-            #table_insert();
+            Insert_DataTable_Orders();
+            new_quantity=int(quantity_prod_total_var.get())-int(quantity_prod_var.get());
+            Edit_Quantity_ProductTable(id_product,new_quantity);
+            e=""; 
+            get_Value_Product(e);
+
 
 
 
     btn_add=tk.Button(frame_btn,text="Add",command=btn_add_order);
     btn_add.grid(row=0,column=0);
 
-    btn_edit=tk.Button(frame_btn,text="Edit");
-    btn_edit.grid(row=0,column=1);
+    """ btn_edit=tk.Button(frame_btn,text="Edit");
+    btn_edit.grid(row=0,column=1); """
 
 
-    btn_delete=tk.Button(frame_btn,text="Delete");
-    btn_delete.grid(row=0,column=2);
+    def Order_mysqlDictionaryQuantity():
+        cursor_db=connection.cursor();
+        cursor_db.execute(f"Select id_prod,quantity from products_table");
+        product_dictionary=cursor_db.fetchall()
+        dict_prod={}
+        for i in product_dictionary:
+            dict_prod[i[0]]=i[1];
+        return dict_prod;
+
+    def btn_delete_order():
+        number_selected=len(table_product.selection())
+        if(number_selected>0):
+            val=messagebox.askyesno("askquestion", f"Are you sure you want to delete {number_selected} orders?")
+            #print(val)
+            if(val):
+                prod_quant_dic=Order_mysqlDictionaryQuantity();
+                #print(prod_quant_dic);
+                for i in table_product.selection():
+                    #print(table_product.item(i))
+                    order_selected=table_product.item(i)["values"]
+                    cursor_db=connection.cursor();
+                    cursor_db.execute(f"Delete from orders_table where id={order_selected[0]}");
+                    connection.commit();
+                    #print(customer_selected['values'])
+                    table_product.delete(i);   
+                    new_quantity=int(prod_quant_dic[order_selected[1]])+int(order_selected[3]);
+                    #print(new_quantity);
+                    Edit_Quantity_ProductTable(order_selected[1],new_quantity);
+                    e=""; 
+                    get_Value_Product(e);
+
+    btn_delete=tk.Button(frame_btn,text="Delete",command=btn_delete_order);
+    btn_delete.grid(row=0,column=1);
 
 
     
@@ -1149,6 +1197,28 @@ def Orders_Table(conn):
         order_data=cursor_db.fetchall()
         return order_data;
 
+    def Retrie_dictionarymysqlProducts():
+        cursor_db=connection.cursor();
+        cursor_db.execute(f"Select id_prod,value_product from products_table");
+        product_dictionary=cursor_db.fetchall()
+        return product_dictionary;
+
+    def Table_Orders():
+        dict_prod={}
+        for i in Retrie_dictionarymysqlProducts():
+            dict_prod[i[0]]=i[1];
+        orders_data=Retrieve_mysqlOrders();
+        """ print(orders_data);
+        print(dict_prod); """
+        new_order_data=[];
+        for i in orders_data:
+            b=list(i);
+            b.insert(2,dict_prod[b[1]]);
+            value_total=f"{float(dict_prod[b[1]])*int(b[3]):.2f}";
+            b.insert(4,value_total);
+            #print(b);
+            new_order_data.append(b);
+        return new_order_data;
 
     frame_table=tk.Frame(root,bg="white");
     frame_table.grid(row=1,column=2,columnspan=4,rowspan=4,sticky=tk.NSEW);
@@ -1170,14 +1240,23 @@ def Orders_Table(conn):
     table_product.grid(row=0,column=0,columnspan=2,sticky=tk.NSEW);
 
 
+    #Table_Orders();
+    #order_table=Retrieve_mysqlProducts();
+    """ for i in Table_Orders():
+        table_product.insert(parent="",index=tk.END,values=i); """ 
     
-    """ customer_data=Retrieve_mysqlProducts();
-    for i in customer_data:
-        table_product.insert(parent="",index=tk.END,values=i); """
+    def clear_all():
+        for item in table_product.get_children():
+            table_product.delete(item)
     
+    def Insert_DataTable_Orders():
+        clear_all();
+        for i in Table_Orders():
+            table_product.insert(parent="",index=tk.END,values=i);
     
+    Insert_DataTable_Orders();
 
-    print(Retrieve_mysqlOrders());
+    
 
     root.mainloop();    
 
@@ -1199,8 +1278,8 @@ if __name__=="__main__":
         database='db_python1',
         user="root",
         password="root");
-        #Log_IN(conn=connection);
-        Orders_Table(conn=connection)
+        Log_IN(conn=connection);
+        #Orders_Table(conn=connection)
         #Products_Table(conn=connection)
         #Customer_Table(conn=connection);
         #User_Menu(conn=connection);
