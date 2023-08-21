@@ -1107,6 +1107,9 @@ def Orders_Table(conn):
         print(quantity_prod_total_var.get())
         print(customer_var.get())
         print(user_id_var.get()) """
+        id_product=product_var.get().split('<->')[0];
+        id_customer=customer_var.get().split('<->')[0];
+        #print(id_product,id_customer)
         if(len(product_var.get())==0 or len(value_prod_var.get())==0 or len(quantity_prod_var.get())==0 or len(customer_var.get())==0 or len(user_id_var.get())==0 ):
             messagebox.showwarning("Warning", "Fill All the Fields");
             return;
@@ -1117,10 +1120,10 @@ def Orders_Table(conn):
             messagebox.showwarning("Warning", "Not enough porudcts selected(quantity)");
             return;
         cursor_db=connection.cursor();
-        cursor_db.execute(f"INSERT into orders_table(id_prod,quantity_prod,id_customer,date_order,user_id) values('{name_product.get()}',{value_product.get()},'{quantity_product.get()}','{userinsert_txt.get()}') ");
+        cursor_db.execute(f"INSERT into orders_table(id_prod,quantity_prod,id_customer,user_id) values('{id_product}',{quantity_prod_var.get()},'{id_customer}','{user_id_var.get()}') ");
         connection.commit();
         if(cursor_db.rowcount>0):
-            messagebox.showinfo("showinfo", "Product created")
+            messagebox.showinfo("showinfo", "Order created")
             #table_insert();
 
 
@@ -1139,6 +1142,14 @@ def Orders_Table(conn):
     
 
     #Table Orders:
+
+    def Retrieve_mysqlOrders():
+        cursor_db=connection.cursor();
+        cursor_db.execute(f"Select id,id_prod,quantity_prod,id_customer,user_id from orders_table");
+        order_data=cursor_db.fetchall()
+        return order_data;
+
+
     frame_table=tk.Frame(root,bg="white");
     frame_table.grid(row=1,column=2,columnspan=4,rowspan=4,sticky=tk.NSEW);
 
@@ -1158,12 +1169,15 @@ def Orders_Table(conn):
     table_product.heading('user_id',text="User-Id:");
     table_product.grid(row=0,column=0,columnspan=2,sticky=tk.NSEW);
 
+
+    
     """ customer_data=Retrieve_mysqlProducts();
     for i in customer_data:
         table_product.insert(parent="",index=tk.END,values=i); """
     
+    
 
-
+    print(Retrieve_mysqlOrders());
 
     root.mainloop();    
 
@@ -1185,8 +1199,8 @@ if __name__=="__main__":
         database='db_python1',
         user="root",
         password="root");
-        Log_IN(conn=connection);
-        #Orders_Table(conn=connection)
+        #Log_IN(conn=connection);
+        Orders_Table(conn=connection)
         #Products_Table(conn=connection)
         #Customer_Table(conn=connection);
         #User_Menu(conn=connection);
