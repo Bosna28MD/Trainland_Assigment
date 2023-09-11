@@ -149,31 +149,41 @@ int String_to_Number(string s){
 
 
 void Create_Student(vector<Student *> &v){
-    string name;
-    int age,grade;
+    string name,age,grade;
+    //int age,grade;
     cout << "Name-Student: "; getline(cin >> std::ws,name); //
-    cout << "Age-Student: "; cin >> age;
-    cout << "Grade-Student:"; cin >> grade;
-    //cin.ignore();
+    cout << "Age-Student: ";  getline(cin >> std::ws,age);
+    cout << "Grade-Student(1-10 integer):"; getline(cin >> std::ws,grade);
 
-    Student *s=new Student(name,age,grade);    
-    v.push_back(s);
-    cout << "\nStudent Created with Roll-Number:"<<s->Get_rollnumber() <<endl;
+    if(isNumber(age) && isNumber(grade)){
+        Student *s=new Student(name,String_to_Number(age),String_to_Number(grade));    
+        v.push_back(s);
+        cout << "\nStudent Created with Roll-Number:"<<s->Get_rollnumber() <<endl;
+        
+    }
+    else{
+        cout << "\n\nInsert an int positive number to Age/Grade , Student wasn't created!!!\n\n ";
+    }
 
-    // cout << "\nPress a button to continue...";
-    // cin.ignore();
-    // cin.ignore();
-    string str;
+    /* string str;
     cout << "\nInsert something continue: ";
-    cin >> str;
+    cin >> str; */
+    //cout << "Age-Student: "; cin >> age;
+    //cout << "Grade-Student(1-10 integer):"; cin >> grade;
+    //cout << "\nInsert something continue: ";
+    cout << "\nPress a enter to continue...";
+    cin.ignore();
+
 }
+
+
 
 
 void Display_All_Students(vector<Student *> v){
     cout << "\n\n";
     if(v.size()==0){
         cout << "No students...\n";
-        cout << "\nPress a button to continue...";
+        cout << "\nPress a enter to continue...";
         cin.ignore();
         return;
     }
@@ -182,17 +192,29 @@ void Display_All_Students(vector<Student *> v){
     }
 
     //string val;
-    // cout << "\nPress a button to continue...";
-    // cin.ignore();
-    string str;
+    cout << "\nPress a enter to continue...";
+    cin.ignore();
+    /* string str;
     cout << "\nInsert something continue: ";
-    cin >> str;
+    cin >> str; */
 }
 
 
 void Update_Student(vector<Student *> v){
-    int nr_student;
-    cout << "\nInsert the rollNUmber of the student which you want to update: "; cin >> nr_student;
+    string nr_check;
+    cout << "\nInsert the rollNUmber of the student which you want to update: "; getline(cin >> std::ws,nr_check);
+    int nr_student=0;
+    if(isNumber(nr_check)){
+        nr_student=String_to_Number(nr_check);
+    }
+    else{
+        cout << "\nInsert a properly number! \n";
+        cout << "\nPress enter to continue...";
+        cin.ignore();
+        return;
+    }
+
+    cout << endl;
 
     bool check_rollnr=false;
     Student *add_student=nullptr;
@@ -214,6 +236,7 @@ void Update_Student(vector<Student *> v){
         if( !(opt=="1" || opt=="2" || opt=="3")  ){
             cout << "\nInvalid Option\n";
         }else{
+            int var_check=1;
             if(opt=="1"){ 
                 string name;
                 cout << "rollNumber-"<<  add_student->Get_rollnumber()<< " Update Name:";
@@ -222,33 +245,62 @@ void Update_Student(vector<Student *> v){
 
             }
             else if(opt=="2"){
-                int age_var;
+                //int age_var;
+                string age_var;
                 cout << "rollNumber-"<<  add_student->Get_rollnumber()<< " Update Age:";
-                cin >> age_var;
-                add_student->Set_age(age_var);
+                getline(cin >> std::ws,age_var);
+                if(isNumber(age_var)){
+                    add_student->Set_age(String_to_Number(age_var));
+                }
+                else{
+                    cout << "\n\n Student wasn't updated , insert a properly number to Age \n\n";
+                    var_check=0;
+                }
+                
             }
             else if(opt=="3"){
-                int grade_var;
+                string grade_var;
                 cout << "rollNumber-"<<  add_student->Get_rollnumber()<< " Update Grade:";
-                cin >> grade_var;
-                add_student->Set_grade(grade_var);
+                //cin >> grade_var;
+                getline(cin >> std::ws,grade_var);
+                if(isNumber(grade_var)){
+                    add_student->Set_grade(String_to_Number(grade_var));
+                }
+                else{
+                    cout << "\n\n Student wasn't updated , insert a properly number to Grade \n\n";
+                    var_check=0;
+
+                }
+                
             }
 
-            cout << "\nStudent Updated!!!\n";
+            if(var_check==1){ cout << "\nStudent Updated!!!\n"; }
         }    
     }
 
-    string str;
-    cout << "\nInsert something continue: ";
-    cin >> str;
-    //cin.ignore();
+    //string str;
+    cout << "\nPress enter to continue...";
+    //cin >> str;
+    cin.ignore();
 
 }
 
 
 void Delete_Student(vector<Student *> &v){
-    int nr_student;
-    cout << "\nInsert the rollNUmber of the student which you want to delete: "; cin >> nr_student;
+    string nr_check;
+    cout << "\nInsert the rollNUmber of the student which you want to delete: "; getline(cin >> std::ws,nr_check);
+    int nr_student=0;
+    if(isNumber(nr_check)){
+        nr_student=String_to_Number(nr_check);
+    }
+    else{
+        cout << "\nInsert a properly number! \n";
+        cout << "\nPress enter to continue...";
+        cin.ignore();
+        return;
+    }
+
+
 
     bool check_rollnr=false;
     vector<Student *>::iterator it_student_del;
@@ -272,9 +324,8 @@ void Delete_Student(vector<Student *> &v){
         cout << "\nStudent with rollNumber:"<< rollnr_del <<" Deleted!!!\n";
     }
 
-    string str;
-    cout << "\nInsert something continue: ";
-    cin >> str;
+    cout << "\nPress enter to continue...";
+    cin.ignore();
 
 }
 
